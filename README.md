@@ -1,4 +1,4 @@
-Shiny Agency
+<h1>Shiny Agency</h1>
 
 Création d'un site en React.
 
