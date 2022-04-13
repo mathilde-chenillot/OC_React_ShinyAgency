@@ -48,7 +48,8 @@ function Survey() {
       })
       .catch((error) => console.log(error));
   }, []);
-  console.log('questions', surveyData);
+  console.log('questions', surveyData[questionNumberInt + 1]);
+  console.log('int', questionNumberInt);
 
   return (
     <SurveyContainer>
@@ -60,18 +61,15 @@ function Survey() {
         {
           questionNumberInt > 1 && <Link to={`/survey/${questionNumberInt - 1}`}>Précédent</Link>
         }
-        {/* hide next button if question is 10 */}
+        {/* hide next button if question is undefined */}
         {
-          questionNumberInt < 10 && <Link to={`/survey/${questionNumberInt + 1}`}>Suivant</Link>
-        }
-        {/* button result if question is 10 */}
-        {
-          questionNumberInt === 10 && <Link to="/results">Résultats</Link>
-          // <Link to="results">Résultats</Link>
+          surveyData[questionNumberInt + 1]
+            ? <Link to={`/survey/${questionNumberInt + 1}`}>Suivant</Link>
+            : <Link to="/results">Résultats</Link>
         }
         {/* if question doesn't exist, redirect to 404. If question is < 1 or > 10 */}
         {
-          (questionNumberInt < 1 || questionNumberInt > 10) && <Navigate to="*" />
+          (questionNumberInt < 1 || questionNumberInt > 6) && <Navigate to="*" />
         }
       </LinkWrapper>
     </SurveyContainer>
