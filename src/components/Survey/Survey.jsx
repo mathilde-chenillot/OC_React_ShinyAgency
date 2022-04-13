@@ -40,7 +40,7 @@ function Survey() {
 
   const [surveyData, setSurveyData] = useState({});
   const [isDataLoading, setIsDataLoading] = useState(true);
-  const [Error, setError] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchSurvey() {
@@ -50,7 +50,7 @@ function Survey() {
         setSurveyData(surveyData);
         setIsDataLoading(false);
       }
-      catch (error) {
+      catch (err) {
         console.log(error);
         setError(true);
       }
@@ -69,6 +69,10 @@ function Survey() {
         <ThreeDots color="#00BFFF" height={50} width={50} visible={isDataLoading} />
       ) : (
         <SurveyContainer>
+
+          {
+            error && <span>Il y a un problème</span>
+          }
           <QuestionTitle>Question {questionNumber}</QuestionTitle>
           <QuestionContent>{surveyData[questionNumberInt]}</QuestionContent>
 
