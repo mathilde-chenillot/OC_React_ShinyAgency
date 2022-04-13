@@ -40,15 +40,25 @@ function Survey() {
 
   const [surveyData, setSurveyData] = useState({});
   const [isDataLoading, setIsDataLoading] = useState(true);
+  const [Error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/survey')
-      .then((response) => response.json())
-      .then(({ surveyData }) => {
+    async function fetchSurvey() {
+      try {
+        const response = await fetch('http://localhost:8000/survey');
+        const { surveyData } = await response.json();
         setSurveyData(surveyData);
         setIsDataLoading(false);
-      })
-      .catch((error) => console.log(error));
+      }
+      catch (error) {
+        console.log(error);
+        setError(true);
+      }
+      finally {
+        setIsDataLoading(false);
+      }
+    }
+    fetchSurvey();
   }, []);
 
   return (
