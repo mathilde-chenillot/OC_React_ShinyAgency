@@ -6,13 +6,13 @@ Il est non responsive, le but est de m'entraîner avec React sans Redux.
 
 Utilisation de :
 
-<li>
-  <ul>React</ul>
-  <ul>React Router DOM</ul>
-  <ul>Les hooks</ul>
-  <ul>Styled components</ul>
-  <ul>ESLint</ul>
-  <ul>Prettier</ul>
-</li>
+<ul>
+  <li>React</li>
+  <li>React Router DOM</li>
+  <li>Les hooks</li>
+  <li>Styled components</li>
+  <li>ESLint</li>
+  <li>Prettier</li>
+</ul>
 
 Projet en cours
