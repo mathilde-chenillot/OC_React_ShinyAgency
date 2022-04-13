@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
+import { useState, useEffect } from 'react';
 import {
-  useParams, useNavigate, Link, Navigate,
+  useParams, Link, Navigate,
 } from 'react-router-dom';
 import styled from 'styled-components';
 import colors from '../../utils/style/color';
@@ -35,11 +36,24 @@ const LinkWrapper = styled.div`
 function Survey() {
   const { questionNumber } = useParams();
   const questionNumberInt = Number(questionNumber);
-  const navigate = useNavigate();
+
+  const [surveyData, setSurveyData] = useState({});
+
+  useEffect(() => {
+    fetch('http://localhost:8000/survey')
+      .then((response) => response.json())
+      .then((data) => {
+        setSurveyData(data.surveyData);
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  console.log('questions', surveyData);
 
   return (
     <SurveyContainer>
       <QuestionTitle>Question {questionNumber}</QuestionTitle>
+      <QuestionContent>{surveyData[questionNumberInt]}</QuestionContent>
 
       <LinkWrapper>
         {/* hide previous button if question is 1 */}
@@ -52,7 +66,7 @@ function Survey() {
         }
         {/* button result if question is 10 */}
         {
-          questionNumberInt === 10 && <button type="button" onClick={() => navigate('/results')}>Résultats</button>
+          questionNumberInt === 10 && <Link to="/results">Résultats</Link>
           // <Link to="results">Résultats</Link>
         }
         {/* if question doesn't exist, redirect to 404. If question is < 1 or > 10 */}
