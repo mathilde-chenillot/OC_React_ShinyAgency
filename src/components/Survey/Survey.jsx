@@ -4,6 +4,7 @@ import {
   useParams, Link, Navigate,
 } from 'react-router-dom';
 import styled from 'styled-components';
+import { ThreeDots } from 'react-loader-spinner';
 import colors from '../../utils/style/color';
 
 // styled component
@@ -38,40 +39,47 @@ function Survey() {
   const questionNumberInt = Number(questionNumber);
 
   const [surveyData, setSurveyData] = useState({});
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://localhost:8000/survey')
       .then((response) => response.json())
-      .then((data) => {
-        setSurveyData(data.surveyData);
-        console.log(data);
+      .then(({ surveyData }) => {
+        setSurveyData(surveyData);
+        setIsDataLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
-  console.log('questions', surveyData[questionNumberInt + 1]);
-  console.log('int', questionNumberInt);
 
   return (
     <SurveyContainer>
-      <QuestionTitle>Question {questionNumber}</QuestionTitle>
-      <QuestionContent>{surveyData[questionNumberInt]}</QuestionContent>
 
-      <LinkWrapper>
-        {/* hide previous button if question is 1 */}
-        {
-          questionNumberInt > 1 && <Link to={`/survey/${questionNumberInt - 1}`}>Précédent</Link>
-        }
-        {/* hide next button if question is undefined */}
-        {
-          surveyData[questionNumberInt + 1]
-            ? <Link to={`/survey/${questionNumberInt + 1}`}>Suivant</Link>
-            : <Link to="/results">Résultats</Link>
-        }
-        {/* if question doesn't exist, redirect to 404. If question is < 1 or > 10 */}
-        {
-          (questionNumberInt < 1 || questionNumberInt > 6) && <Navigate to="*" />
-        }
-      </LinkWrapper>
+      { isDataLoading ? (
+        // Loader
+        <ThreeDots color="#00BFFF" height={50} width={50} visible={isDataLoading} />
+      ) : (
+        <SurveyContainer>
+          <QuestionTitle>Question {questionNumber}</QuestionTitle>
+          <QuestionContent>{surveyData[questionNumberInt]}</QuestionContent>
+
+          <LinkWrapper>
+            {/* hide previous button if question is 1 */}
+            {
+              questionNumberInt > 1 && <Link to={`/survey/${questionNumberInt - 1}`}>Précédent</Link>
+            }
+            {/* hide next button if question is undefined */}
+            {
+              surveyData[questionNumberInt + 1]
+                ? <Link to={`/survey/${questionNumberInt + 1}`}>Suivant</Link>
+                : <Link to="/results">Résultats</Link>
+            }
+            {/* if question doesn't exist, redirect to 404. If question is < 1 or > 6 */}
+            {
+              (questionNumberInt < 1 || questionNumberInt > 6) && <Navigate to="*" />
+            }
+          </LinkWrapper>
+        </SurveyContainer>
+      )}
     </SurveyContainer>
   );
 }
