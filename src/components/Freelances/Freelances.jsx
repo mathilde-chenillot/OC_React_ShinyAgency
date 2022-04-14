@@ -64,19 +64,19 @@ function Freelances() {
           error && <span>Il y a un problème</span>
         }
         {
-        isDataLoading ? <ThreeDots color="#00BFFF" height={50} width={50} visible={isDataLoading} />
-          : (
+          isDataLoading ? <ThreeDots color="#00BFFF" height={50} width={50} visible={isDataLoading} />
+            : (
 
-            freelancesData.map((profile) => (
-              <Card
-                key={profile.id}
-                label={profile.job}
-                picture={profile.picture}
-                title={profile.name}
-              />
-            ))
-          )
-      }
+              freelancesData.map((profile) => (
+                <Card
+                  key={profile.id}
+                  label={profile.job}
+                  picture={profile.picture}
+                  title={profile.name}
+                />
+              ))
+            )
+        }
       </CardsContainer>
     </div>
   );

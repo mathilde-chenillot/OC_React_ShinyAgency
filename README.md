@@ -9,7 +9,8 @@ Utilisation de :
 <ul>
   <li>React</li>
   <li>React Router DOM</li>
-  <li>Les hooks</li>
+  <li>Les hooks : useState, useEffect, useContext</li>
+  <li>fetch</li>
   <li>Styled components</li>
   <li>ESLint</li>
   <li>Prettier</li>
