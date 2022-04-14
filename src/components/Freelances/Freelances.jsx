@@ -1,8 +1,9 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable react/no-array-index-key */
+import { useState, useEffect } from 'react';
+import { ThreeDots } from 'react-loader-spinner';
 import styled from 'styled-components';
 import colors from '../../utils/style/color';
-import DefaultPicture from '../../assets/profile.png';
 import Card from '../Card/Card';
 
 const CardsContainer = styled.div`
@@ -28,39 +29,53 @@ const PageSubtitle = styled.h2`
   padding-bottom: 30px;
 `;
 
-const freelanceProfiles = [
-  {
-    name: 'Jane Doe',
-    jobTitle: 'Devops',
-    picture: DefaultPicture,
-  },
-  {
-    name: 'John Doe',
-    jobTitle: 'Developpeur frontend',
-    picture: DefaultPicture,
-  },
-  {
-    name: 'Jeanne Biche',
-    jobTitle: 'Développeuse Fullstack',
-    picture: DefaultPicture,
-  },
-];
-
 function Freelances() {
+  const [freelancesData, setFreelancesData] = useState([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    async function fetchFreelances() {
+      try {
+        const response = await fetch('http://localhost:8000/freelances');
+        const { freelancersList } = await response.json();
+        setFreelancesData(freelancersList);
+        setIsDataLoading(false);
+        setError(false);
+      }
+      catch (err) {
+        console.log(err);
+        setError(true);
+        setFreelancesData([]);
+      }
+      finally {
+        setIsDataLoading(false);
+      }
+    }
+    fetchFreelances();
+  }, []);
+
   return (
     <div>
       <PageTitle>Trouvez votre prestataire</PageTitle>
       <PageSubtitle>Chez Shiny nous réunissons les meilleurs profils pour vous.</PageSubtitle>
       <CardsContainer>
         {
-        freelanceProfiles.map((profile, index) => (
-          <Card
-            key={`${profile.name}-${index}`}
-            label={profile.jobTitle}
-            picture={profile.picture}
-            title={profile.name}
-          />
-        ))
+          error && <span>Il y a un problème</span>
+        }
+        {
+        isDataLoading ? <ThreeDots color="#00BFFF" height={50} width={50} visible={isDataLoading} />
+          : (
+
+            freelancesData.map((profile) => (
+              <Card
+                key={profile.id}
+                label={profile.job}
+                picture={profile.picture}
+                title={profile.name}
+              />
+            ))
+          )
       }
       </CardsContainer>
     </div>
