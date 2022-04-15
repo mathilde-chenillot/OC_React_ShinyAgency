@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-// styled component
 import styled from 'styled-components';
+// styled component
 import colors from '../../utils/style/color';
 import homeIllustration from '../../assets/home-illustration.svg';
 

@@ -1,5 +1,7 @@
 /* eslint-disable linebreak-style */
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { ThemeContext } from '../../utils/context';
 import colors from '../../utils/style/color';
 
 const FooterContainer = styled.footer`
@@ -18,9 +20,13 @@ const NightModeButton = styled.button`
 `;
 
 function Footer() {
+  const { toggleTheme, theme } = useContext(ThemeContext);
+
   return (
     <FooterContainer>
-      <NightModeButton>Changer de mode</NightModeButton>
+      <NightModeButton onClick={() => toggleTheme()}>
+        Changer de mode : {theme === 'light' ? '☀️' : '🌙'}
+      </NightModeButton>
     </FooterContainer>
   );
 }
