@@ -1,11 +1,14 @@
 /* eslint-disable linebreak-style */
-import { useState, useEffect } from 'react';
+import {
+  useState, useEffect, useContext,
+} from 'react';
 import {
   useParams, Link, Navigate,
 } from 'react-router-dom';
 import styled from 'styled-components';
 import { ThreeDots } from 'react-loader-spinner';
 import colors from '../../utils/style/color';
+import { SurveyContext } from '../../utils/context/surveyContext';
 
 // styled component
 
@@ -34,6 +37,32 @@ const LinkWrapper = styled.div`
   }
 `;
 
+const ReplyBox = styled.button`
+  border: none;
+  height: 100px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.backgroundLight};
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: ${(props) => (props.isSelected ? `0px 0px 0px 2px ${colors.primary} inset` : 'none')};
+  &:first-child {
+    margin-right: 15px;
+  }
+  &:last-of-type {
+    margin-left: 15px;
+  }
+`;
+
+const ReplyWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+// Component
+
 function Survey() {
   const { questionNumber } = useParams();
   const questionNumberInt = Number(questionNumber);
@@ -42,6 +71,13 @@ function Survey() {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { answers, saveAnswers } = useContext(SurveyContext);
+
+  const saveReply = (answer) => {
+    saveAnswers({ [questionNumber]: answer });
+  };
+
+  // fetches data and saves it
   useEffect(() => {
     async function fetchSurvey() {
       try {
@@ -52,7 +88,7 @@ function Survey() {
         setError(false);
       }
       catch (err) {
-        console.log(error);
+        console.log('survey error', error);
         setError(true);
         setSurveyData({});
       }
@@ -78,6 +114,25 @@ function Survey() {
 
           <QuestionTitle>Question {questionNumber}</QuestionTitle>
           <QuestionContent>{surveyData[questionNumberInt]}</QuestionContent>
+
+          {/* display answer if exists */}
+          { answers && (
+
+          <ReplyWrapper>
+            <ReplyBox
+              onClick={() => saveReply(true)}
+              isSelected={answers[questionNumber] === true}
+            >
+              Oui
+            </ReplyBox>
+            <ReplyBox
+              onClick={() => saveReply(false)}
+              isSelected={answers[questionNumber] === false}
+            >
+              Non
+            </ReplyBox>
+          </ReplyWrapper>
+          )}
 
           <LinkWrapper>
             {/* hide previous button if question is 1 */}

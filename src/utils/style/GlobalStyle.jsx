@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import { useContext } from 'react';
 import { createGlobalStyle } from 'styled-components';
-import { ThemeContext } from '../context/index';
+import { ThemeContext } from '../context/themeContext';
 
 const StyledGlobalStyle = createGlobalStyle`
  * {

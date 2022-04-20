@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { ThemeContext } from '../../utils/context';
+import { ThemeContext } from '../../utils/context/themeContext';
 import colors from '../../utils/style/color';
 
 const FooterContainer = styled.footer`

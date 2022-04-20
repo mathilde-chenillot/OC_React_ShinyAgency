@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { createContext, useState } from 'react';
+import { createContext, useState, useMemo } from 'react';
 
 export const ThemeContext = createContext();
 
@@ -9,8 +9,12 @@ export function ThemeProvider({ children }) {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
+  const value = useMemo(() => ({
+    theme, toggleTheme,
+  }), [theme]);
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

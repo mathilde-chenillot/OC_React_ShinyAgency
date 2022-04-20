@@ -44,7 +44,7 @@ function Freelances() {
         setError(false);
       }
       catch (err) {
-        console.log(err);
+        console.log('freelances error', err);
         setError(true);
         setFreelancesData([]);
       }
