@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { ThreeDots } from 'react-loader-spinner';
 import colors from '../../utils/style/color';
 import { SurveyContext } from '../../utils/context/surveyContext';
+import { useFetch } from '../../utils/hooks/useFetch';
 
 // styled component
 
@@ -67,9 +68,9 @@ function Survey() {
   const { questionNumber } = useParams();
   const questionNumberInt = Number(questionNumber);
 
-  const [surveyData, setSurveyData] = useState({});
-  const [isDataLoading, setIsDataLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [surveyData, setSurveyData] = useState({});
+  // const [isDataLoading, setIsDataLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
   const { answers, saveAnswers } = useContext(SurveyContext);
 
@@ -77,27 +78,8 @@ function Survey() {
     saveAnswers({ [questionNumber]: answer });
   };
 
-  // fetches data and saves it
-  useEffect(() => {
-    async function fetchSurvey() {
-      try {
-        const response = await fetch('http://localhost:8000/survey');
-        const { surveyData } = await response.json();
-        setSurveyData(surveyData);
-        setIsDataLoading(false);
-        setError(false);
-      }
-      catch (err) {
-        console.log('survey error', error);
-        setError(true);
-        setSurveyData({});
-      }
-      finally {
-        setIsDataLoading(false);
-      }
-    }
-    fetchSurvey();
-  }, []);
+  const { data, isDataLoading, error } = useFetch('http://localhost:8000/survey');
+  const { surveyData } = data;
 
   if (error) {
     return <SurveyContainer>Il y a un problème</SurveyContainer>;
@@ -113,7 +95,9 @@ function Survey() {
         <SurveyContainer>
 
           <QuestionTitle>Question {questionNumber}</QuestionTitle>
-          <QuestionContent>{surveyData[questionNumberInt]}</QuestionContent>
+          <QuestionContent>
+            {surveyData && surveyData[questionNumberInt]}
+          </QuestionContent>
 
           {/* display answer if exists */}
           { answers && (
