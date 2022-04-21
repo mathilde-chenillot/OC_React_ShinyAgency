@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 // styled component
 import colors from '../../utils/style/color';
 import homeIllustration from '../../assets/home-illustration.svg';
+import { StyledLink } from '../../utils/style/StyledLink';
 
 const MainStyled = styled.main`
   display: flex;
@@ -15,15 +15,6 @@ const HomeContainer = styled.div`
   padding: 60px 90px;
   background-color: ${colors.backgroundLight};
   max-width: 1200px;
-`;
-
-const StyledLink = styled(Link)`
-  padding: 15px;
-  text-decoration: none;
-  font-size: 18px;
-  color: white;
-  border-radius: 30px;
-  background-color: ${colors.primary};
 `;
 
 const LeftColumn = styled.div`

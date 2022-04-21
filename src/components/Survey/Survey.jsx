@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 import {
-  useState, useEffect, useContext,
+  useContext,
 } from 'react';
 import {
   useParams, Link, Navigate,
@@ -67,10 +67,6 @@ const ReplyWrapper = styled.div`
 function Survey() {
   const { questionNumber } = useParams();
   const questionNumberInt = Number(questionNumber);
-
-  // const [surveyData, setSurveyData] = useState({});
-  // const [isDataLoading, setIsDataLoading] = useState(true);
-  // const [error, setError] = useState(null);
 
   const { answers, saveAnswers } = useContext(SurveyContext);
 
