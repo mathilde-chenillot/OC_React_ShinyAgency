@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import defaultPicture from '../../assets/profile.png';
 import colors from '../../utils/style/color';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 const CardWrapper = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ const CardWrapper = styled.div`
   align-items: center;
   justify-content: space-around;
   padding: 15px;
-  background-color: ${colors.backgroundLight};
+  background-color: ${({ theme }) => (theme === 'light' ? colors.backgroundLight : '#565389')};
   border-radius: 30px;
   width: 300px;
   height: 300px;
@@ -22,9 +23,13 @@ const CardWrapper = styled.div`
 `;
 
 const CardLabel = styled.span`
-    color: #5843e4;
+    color: ${({ theme }) => (theme === 'light' ? '#5843e4' : '#fbd95e')};
     font-size: 22px;
     font-weight: bold;
+`;
+
+const CardName = styled.span`
+    color: ${({ theme }) => (theme === 'light' ? '#000000' : '#fcecb0')}
 `;
 
 const CardImage = styled.img`
@@ -34,11 +39,12 @@ const CardImage = styled.img`
 `;
 
 function Card({ label, picture, title }) {
+  const { theme } = useTheme();
   return (
-    <CardWrapper>
+    <CardWrapper theme={theme}>
       <CardLabel>{label}</CardLabel>
       <CardImage src={picture} alt="freelance" />
-      <span>{title}</span>
+      <CardName theme={theme}>{title}</CardName>
     </CardWrapper>
   );
 }

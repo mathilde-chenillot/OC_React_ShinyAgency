@@ -1,8 +1,8 @@
 /* eslint-disable linebreak-style */
-import { useContext } from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../../utils/context/themeContext';
 import colors from '../../utils/style/color';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 const FooterContainer = styled.footer`
     display: flex;
@@ -20,7 +20,7 @@ const NightModeButton = styled.button`
 `;
 
 function Footer() {
-  const { toggleTheme, theme } = useContext(ThemeContext);
+  const { toggleTheme, theme } = useTheme(ThemeContext);
 
   return (
     <FooterContainer>

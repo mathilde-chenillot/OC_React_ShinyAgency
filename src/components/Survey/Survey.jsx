@@ -10,6 +10,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import colors from '../../utils/style/color';
 import { SurveyContext } from '../../utils/context/surveyContext';
 import { useFetch } from '../../utils/hooks/useFetch';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 // styled component
 
@@ -22,16 +23,18 @@ const SurveyContainer = styled.div`
 const QuestionTitle = styled.h2`
   text-decoration: underline;
   text-decoration-color: ${colors.primary};
+  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
 `;
 
 const QuestionContent = styled.span`
   margin: 30px;
+  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
 `;
 
 const LinkWrapper = styled.div`
   padding-top: 30px;
   & a {
-    color: black;
+    color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
   }
   & a:first-of-type {
     margin-right: 20px;
@@ -45,7 +48,7 @@ const ReplyBox = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.backgroundLight};
+  background-color: ${({ theme }) => (theme === 'light' ? colors.backgroundLight : colors.backgroundDark)};
   border-radius: 30px;
   cursor: pointer;
   box-shadow: ${(props) => (props.isSelected ? `0px 0px 0px 2px ${colors.primary} inset` : 'none')};
@@ -70,6 +73,8 @@ function Survey() {
 
   const { answers, saveAnswers } = useContext(SurveyContext);
 
+  const { theme } = useTheme();
+
   const saveReply = (answer) => {
     saveAnswers({ [questionNumber]: answer });
   };
@@ -90,8 +95,8 @@ function Survey() {
       ) : (
         <SurveyContainer>
 
-          <QuestionTitle>Question {questionNumber}</QuestionTitle>
-          <QuestionContent>
+          <QuestionTitle theme={theme}>Question {questionNumber}</QuestionTitle>
+          <QuestionContent theme={theme}>
             {surveyData && surveyData[questionNumberInt]}
           </QuestionContent>
 
@@ -102,19 +107,21 @@ function Survey() {
             <ReplyBox
               onClick={() => saveReply(true)}
               isSelected={answers[questionNumber] === true}
+              theme={theme}
             >
               Oui
             </ReplyBox>
             <ReplyBox
               onClick={() => saveReply(false)}
               isSelected={answers[questionNumber] === false}
+              theme={theme}
             >
               Non
             </ReplyBox>
           </ReplyWrapper>
           )}
 
-          <LinkWrapper>
+          <LinkWrapper theme={theme}>
             {/* hide previous button if question is 1 */}
             {
               questionNumberInt > 1 && <Link to={`/survey/${questionNumberInt - 1}`}>Précédent</Link>

@@ -3,10 +3,10 @@ import { useContext } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 import styled from 'styled-components';
 import { SurveyContext } from '../../utils/context/surveyContext';
-import { ThemeContext } from '../../utils/context/themeContext';
 import { useFetch } from '../../utils/hooks/useFetch';
 import { StyledLink } from '../../utils/style/StyledLink';
 import colors from '../../utils/style/color';
+import { useTheme } from '../../utils/hooks/useTheme';
 
 const ResultsContainer = styled.div`
   display: flex;
@@ -64,14 +64,13 @@ function formatFetchParams(answers) {
 }
 
 function Results() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const { answers } = useContext(SurveyContext);
   const fetchParams = formatFetchParams(answers);
 
   const { data, isDataLoading, error } = useFetch(`http://localhost:8000/results?${fetchParams}`);
-  console.log(data);
 
-  const resultsData = data?.resultsData;
+  const { resultsData } = data;
 
   if (error) {
     return <span>Il y a un problème</span>;
